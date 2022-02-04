@@ -1,0 +1,7 @@
+Seguite le milestone nell’ordine in cui le trovate, non vi dedicate allo stile finché non vi viene richiesto, inizialmente concentratevi solo sulla logica.
+
+Qui l’esempio axios GET con params :
+https://axios-http.com/docs/example
+
+Dovesse servire il codice di questa mattina, trovate la repo online:
+https://github.com/sim-one/vue-dischi
