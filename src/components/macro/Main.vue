@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <input type="text" v-model="inputSearch " id="searchbar" @keyup="search"/>
+      <input type="text" v-model="inputSearch" id="searchbar" @keyup="search" />
       <button @click="search">Search</button>
     </div>
 
@@ -9,7 +9,12 @@
       <div class="movies-contaier">
         <h2>Film</h2>
         <div v-for="movie in movieResultsArray" :key="movie.id" class="film">
-          <div class="poster"><img :src="'https://image.tmdb.org/t/p/w185/' + movie.poster_path" :alt="movie.title"></div>
+          <div class="poster">
+            <img
+              :src="'https://image.tmdb.org/t/p/w342/' + movie.poster_path"
+              :alt="movie.title"
+            />
+          </div>
           <div class="title">{{ movie.title }}</div>
           <div class="og-title">{{ movie.original_title }}</div>
           <div class="lang" v-if="hasFlag(movie.original_language)">
@@ -18,7 +23,51 @@
           <div class="lang no-flag" v-else>
             <span class="no-flag">{{ movie.original_language }}</span>
           </div>
-          <div class="rating">{{ movie.vote_average }}</div>
+
+          <div class="rating">
+            <div v-if="getStars(movie.vote_average) == 0">
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(movie.vote_average) == 1">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(movie.vote_average) == 2">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(movie.vote_average) == 3">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(movie.vote_average) == 4">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(movie.vote_average) == 5">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -29,7 +78,12 @@
           :key="series.id"
           class="tv-series"
         >
-        <div class="poster"><img :src="'https://image.tmdb.org/t/p/w185/' + series.poster_path" :alt="series.title"></div>
+          <div class="poster">
+            <img
+              :src="'https://image.tmdb.org/t/p/w342/' + series.poster_path"
+              :alt="series.title"
+            />
+          </div>
           <div class="title">{{ series.name }}</div>
           <div class="og-title">{{ series.original_name }}</div>
           <div class="lang" v-if="hasFlag(series.original_language)">
@@ -38,7 +92,51 @@
           <div class="lang no-flag" v-else>
             <span class="no-flag">{{ series.original_language }}</span>
           </div>
-          <div class="rating">{{ series.vote_average }}</div>
+
+          <div class="rating">
+            <div v-if="getStars(series.vote_average) == 0">
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(series.vote_average) == 1">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(series.vote_average) == 2">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(series.vote_average) == 3">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(series.vote_average) == 4">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['far', 'star']" />
+            </div>
+            <div v-else-if="getStars(series.vote_average) == 5">
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+              <fas :icon="['fas', 'star']" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -93,6 +191,13 @@ export default {
           console.log(error);
         });
     },
+    search() {
+      //Se l'input non è vuoto, esegue le funzioni
+      if (this.inputSearch.trim().length > 0) {
+        this.getMovies();
+        this.getTvSeries();
+      }
+    },
     //Controlla se una bandiera è presente con la lingua inserita
     hasFlag(language) {
       language = language.toUpperCase().trim();
@@ -111,7 +216,7 @@ export default {
       });
       return hasFlagBool;
     },
-    //Restituisce il code flag per il plugin flagpack
+    //Ritorna il code flag per il plugin flagpack
     getFlagCode(language) {
       let flag = "";
       switch (language.trim()) {
@@ -129,12 +234,10 @@ export default {
       }
       return flag;
     },
-    search() {
-      //Se l'input non è vuoto, esegue le funzioni
-      if (this.inputSearch.trim().length > 0) {
-        this.getMovies();
-        this.getTvSeries();
-      }
+    //Ritorna il numero di stelle in base al voto inserito
+    getStars(vote) {
+      console.log(vote, Math.round(vote / 2));
+      return Math.round(vote / 2);
     },
   },
 };
