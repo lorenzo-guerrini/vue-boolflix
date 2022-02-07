@@ -1,14 +1,15 @@
 <template>
   <div>
     <div>
-      <input type="text" v-model="inputSearch" id="searchbar" />
+      <input type="text" v-model="inputSearch " id="searchbar" @keyup="search"/>
       <button @click="search">Search</button>
     </div>
 
     <div class="container">
-      <div class="movies">
+      <div class="movies-contaier">
         <h2>Film</h2>
         <div v-for="movie in movieResultsArray" :key="movie.id" class="film">
+          <div class="poster"><img :src="'https://image.tmdb.org/t/p/w185/' + movie.poster_path" :alt="movie.title"></div>
           <div class="title">{{ movie.title }}</div>
           <div class="og-title">{{ movie.original_title }}</div>
           <div class="lang" v-if="hasFlag(movie.original_language)">
@@ -20,13 +21,15 @@
           <div class="rating">{{ movie.vote_average }}</div>
         </div>
       </div>
-      <div class="tv">
+
+      <div class="tv-container">
         <h2>Serie TV</h2>
         <div
           v-for="series in tvSeriesResultsArray"
           :key="series.id"
           class="tv-series"
         >
+        <div class="poster"><img :src="'https://image.tmdb.org/t/p/w185/' + series.poster_path" :alt="series.title"></div>
           <div class="title">{{ series.name }}</div>
           <div class="og-title">{{ series.original_name }}</div>
           <div class="lang" v-if="hasFlag(series.original_language)">
@@ -50,6 +53,7 @@ export default {
   name: "Main",
   data() {
     return {
+      apiKey: "f77766b6883c25e33f59b75b045376d0",
       apiMoviesURL: "https://api.themoviedb.org/3/search/movie",
       apiTVSeriesUrl: "https://api.themoviedb.org/3/search/tv",
       inputSearch: "",
@@ -63,7 +67,7 @@ export default {
       axios
         .get(this.apiMoviesURL, {
           params: {
-            api_key: "f77766b6883c25e33f59b75b045376d0",
+            api_key: this.apiKey,
             query: this.inputSearch,
           },
         })
@@ -78,7 +82,7 @@ export default {
       axios
         .get(this.apiTVSeriesUrl, {
           params: {
-            api_key: "f77766b6883c25e33f59b75b045376d0",
+            api_key: this.apiKey,
             query: this.inputSearch,
           },
         })
