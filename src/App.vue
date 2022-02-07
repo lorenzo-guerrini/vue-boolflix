@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Main from "./components/macro/Main.vue";
+import Main from "@/components/macro/Main.vue";
 
 export default {
   name: "App",
