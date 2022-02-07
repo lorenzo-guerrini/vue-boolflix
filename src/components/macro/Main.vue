@@ -6,16 +6,37 @@
     </div>
 
     <div class="container">
-      <div v-for="(element, i) in resultsArray" :key="i" class="film">
-        <div class="title">{{ element.title }}</div>
-        <div class="og-title">{{ element.original_title }}</div>
-        <div class="lang" v-if="hasFlag(element.original_language)">
-          <Flag :code="getFlagCode(element.original_language)" />
+      <div class="movies">
+        <h2>Film</h2>
+        <div v-for="movie in movieResultsArray" :key="movie.id" class="film">
+          <div class="title">{{ movie.title }}</div>
+          <div class="og-title">{{ movie.original_title }}</div>
+          <div class="lang" v-if="hasFlag(movie.original_language)">
+            <Flag :code="getFlagCode(movie.original_language)" />
+          </div>
+          <div class="lang no-flag" v-else>
+            <span class="no-flag">{{ movie.original_language }}</span>
+          </div>
+          <div class="rating">{{ movie.vote_average }}</div>
         </div>
-        <div class="lang no-flag" v-else>
-          <span class="no-flag">{{ element.original_language }}</span>
+      </div>
+      <div class="tv">
+        <h2>Serie TV</h2>
+        <div
+          v-for="series in tvSeriesResultsArray"
+          :key="series.id"
+          class="tv-series"
+        >
+          <div class="title">{{ series.name }}</div>
+          <div class="og-title">{{ series.original_name }}</div>
+          <div class="lang" v-if="hasFlag(series.original_language)">
+            <Flag :code="getFlagCode(series.original_language)" />
+          </div>
+          <div class="lang no-flag" v-else>
+            <span class="no-flag">{{ series.original_language }}</span>
+          </div>
+          <div class="rating">{{ series.vote_average }}</div>
         </div>
-        <div class="rating">{{ element.vote_average }}</div>
       </div>
     </div>
   </div>
@@ -29,31 +50,44 @@ export default {
   name: "Main",
   data() {
     return {
-      apiURL: "https://api.themoviedb.org/3/search/movie",
+      apiMoviesURL: "https://api.themoviedb.org/3/search/movie",
+      apiTVSeriesUrl: "https://api.themoviedb.org/3/search/tv",
       inputSearch: "",
-      resultsArray: [],
+      movieResultsArray: [],
+      tvSeriesResultsArray: [],
       langExceptionsArray: ["EN", "HI", "JA"],
     };
   },
   methods: {
     getMovies() {
-      //Se l'input non è vuoto, esegue l'api GET
-      if (this.inputSearch.trim().length > 0) {
-        axios
-          .get(this.apiURL, {
-            params: {
-              api_key: "f77766b6883c25e33f59b75b045376d0",
-              query: this.inputSearch,
-            },
-          })
-          .then((response) => {
-            this.resultsArray = response.data.results;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .then(function () {});
-      }
+      axios
+        .get(this.apiMoviesURL, {
+          params: {
+            api_key: "f77766b6883c25e33f59b75b045376d0",
+            query: this.inputSearch,
+          },
+        })
+        .then((response) => {
+          this.movieResultsArray = response.data.results;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getTvSeries() {
+      axios
+        .get(this.apiTVSeriesUrl, {
+          params: {
+            api_key: "f77766b6883c25e33f59b75b045376d0",
+            query: this.inputSearch,
+          },
+        })
+        .then((response) => {
+          this.tvSeriesResultsArray = response.data.results;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     //Controlla se una bandiera è presente con la lingua inserita
     hasFlag(language) {
@@ -92,14 +126,19 @@ export default {
       return flag;
     },
     search() {
-      this.getMovies();
+      //Se l'input non è vuoto, esegue le funzioni
+      if (this.inputSearch.trim().length > 0) {
+        this.getMovies();
+        this.getTvSeries();
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.film {
+.film,
+.tv-series {
   border: 1px solid black;
 }
 
