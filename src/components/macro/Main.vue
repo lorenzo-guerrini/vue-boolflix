@@ -12,11 +12,12 @@
           <div class="poster">
             <img
               :src="'https://image.tmdb.org/t/p/w342/' + movie.poster_path"
-              :alt="movie.title"
             />
           </div>
           <div class="title">{{ movie.title }}</div>
-          <div class="og-title">{{ movie.original_title }}</div>
+          <div v-if="movie.title != movie.original_title" class="og-title">
+            {{ movie.original_title }}
+          </div>
           <div class="lang" v-if="hasFlag(movie.original_language)">
             <Flag :code="getFlagCode(movie.original_language)" />
           </div>
@@ -81,11 +82,12 @@
           <div class="poster">
             <img
               :src="'https://image.tmdb.org/t/p/w342/' + series.poster_path"
-              :alt="series.title"
             />
           </div>
           <div class="title">{{ series.name }}</div>
-          <div class="og-title">{{ series.original_name }}</div>
+          <div class="og-title" v-if="series.name != series.original_name">
+            {{ series.original_name }}
+          </div>
           <div class="lang" v-if="hasFlag(series.original_language)">
             <Flag :code="getFlagCode(series.original_language)" />
           </div>
