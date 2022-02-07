@@ -6,11 +6,11 @@
     </div>
 
     <div class="container">
-      <div class="film">
-        <div class="title"></div>
-        <div class="og-title"></div>
-        <div class="lang"></div>
-        <div class="rating"></div>
+      <div v-for="(element, i) in resultsArray" :key="i" class="film">
+        <div class="title">{{ element.title }}</div>
+        <div class="og-title">{{ element.original_title }}</div>
+        <div class="lang">{{ element.original_language }}</div>
+        <div class="rating">{{ element.vote_average }}</div>
       </div>
     </div>
   </div>
@@ -25,6 +25,7 @@ export default {
     return {
       apiURL: "https://api.themoviedb.org/3/search/movie",
       inputSearch: "",
+      resultsArray: [],
     };
   },
   methods: {
@@ -38,8 +39,8 @@ export default {
               query: this.inputSearch,
             },
           })
-          .then(function (response) {
-            console.log(response.data.results);
+          .then((response) => {
+            this.resultsArray = response.data.results;
           })
           .catch(function (error) {
             console.log(error);
