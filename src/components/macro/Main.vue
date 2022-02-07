@@ -55,4 +55,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.film {
+    border: 1px solid black;
+}
+</style>
